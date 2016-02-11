@@ -26,7 +26,7 @@ public class MyUserDetailsService implements UserDetailsService {
         Set<GrantedAuthority> authorities = new HashSet<>();
 
         return new org.springframework.security.core.userdetails.User(
-                loginName, "",
+                loginName, "$2a$10$sdy7l9EvtCQ9EEjnRzrxVuogzxEw3tSxuxmANXLOyWeI09UPQU8Na", // 111111
                 true,//是否可用
                 true,//是否过期
                 true,//证书不过期为true
