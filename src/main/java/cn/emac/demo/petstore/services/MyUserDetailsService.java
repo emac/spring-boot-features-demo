@@ -1,6 +1,8 @@
 package cn.emac.demo.petstore.services;
 
+import cn.emac.demo.petstore.domain.jpetstore.tables.records.SignonRecord;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,20 +19,27 @@ import java.util.Set;
 @Component
 public class MyUserDetailsService implements UserDetailsService {
 
+    @Autowired
+    private SignonService signonService;
+
     @Override
-    public UserDetails loadUserByUsername(String loginName) {
-        if (StringUtils.isBlank(loginName)) {
-            throw new UsernameNotFoundException("loginName is blank");
+    public UserDetails loadUserByUsername(String username) {
+        if (StringUtils.isBlank(username)) {
+            throw new UsernameNotFoundException("username is blank");
         }
 
-        Set<GrantedAuthority> authorities = new HashSet<>();
+        SignonRecord record = signonService.findByName(username);
+        if (record == null) {
+            throw new UsernameNotFoundException("user doesn't exist");
+        }
 
         return new org.springframework.security.core.userdetails.User(
-                loginName, "$2a$10$sdy7l9EvtCQ9EEjnRzrxVuogzxEw3tSxuxmANXLOyWeI09UPQU8Na", // 111111
+//                username, "$2a$10$sdy7l9EvtCQ9EEjnRzrxVuogzxEw3tSxuxmANXLOyWeI09UPQU8Na", // 111111
+                username, record.getPassword(),
                 true,//是否可用
                 true,//是否过期
                 true,//证书不过期为true
                 true,// 账户未锁定为true
-                authorities);
+                new HashSet<>());
     }
 }

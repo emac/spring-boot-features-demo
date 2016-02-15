@@ -125,7 +125,7 @@
                     <plugin>
                         <groupId>org.jooq</groupId>
                         <artifactId>jooq-codegen-maven</artifactId>
-                        <version>3.7.2</version>
+                        <version>${jooq.version}</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -137,7 +137,7 @@
                             <dependency>
                                 <groupId>mysql</groupId>
                                 <artifactId>mysql-connector-java</artifactId>
-                                <version>5.1.38</version>
+                                <version>${mysql.version}</version>
                             </dependency>
                         </dependencies>
                         <configuration>
