@@ -1,16 +1,14 @@
 package cn.emac.demo.petstore.services;
 
-import cn.emac.demo.petstore.domain.jpetstore.tables.records.SignonRecord;
+import cn.emac.demo.petstore.domain.tables.pojos.Signon;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Emac
@@ -28,7 +26,7 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("username is blank");
         }
 
-        SignonRecord record = signonService.findByName(username);
+        Signon record = signonService.findByName(username);
         if (record == null) {
             throw new UsernameNotFoundException("user doesn't exist");
         }
