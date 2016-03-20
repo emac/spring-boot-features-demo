@@ -5,6 +5,7 @@ import cn.emac.demo.petstore.domain.tables.pojos.Signon;
 import cn.emac.demo.petstore.domain.tables.records.SignonRecord;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,11 @@ public class SignonService {
     public Signon findByName(String username) {
 //        return dsl.selectFrom(SIGNON).where(SIGNON.USERNAME.eq(username)).fetchOne().into(Signon.class);
         return dao.fetchOneByUsername(username);
+    }
+
+    @CacheEvict(value="signonCache", key="'petstore:signon:'+#user.username")
+    public void update(Signon user) {
+        dao.update(user);
     }
 
 }

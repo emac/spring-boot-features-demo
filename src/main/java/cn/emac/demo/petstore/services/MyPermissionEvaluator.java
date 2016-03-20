@@ -15,11 +15,15 @@ public class MyPermissionEvaluator implements PermissionEvaluator {
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
+        if (!authentication.isAuthenticated()) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object permission) {
-        return true;
+        // not supported
+        return false;
     }
 }

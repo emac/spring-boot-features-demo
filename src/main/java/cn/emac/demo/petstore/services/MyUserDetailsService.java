@@ -1,14 +1,14 @@
 package cn.emac.demo.petstore.services;
 
 import cn.emac.demo.petstore.domain.tables.pojos.Signon;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
 
 /**
  * @author Emac
@@ -38,6 +38,6 @@ public class MyUserDetailsService implements UserDetailsService {
                 true,//是否过期
                 true,//证书不过期为true
                 true,// 账户未锁定为true
-                new HashSet<>());
+                Sets.newHashSet(new SimpleGrantedAuthority("ROLE_DOCTOR")));
     }
 }

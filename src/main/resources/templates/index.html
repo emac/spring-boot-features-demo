@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <title>Thymeleaf 3 + Spring 4 example</title>
     <meta charset="utf-8" />
 </head>
 <body>
 <h1>Thymeleaf 3 + Spring 4 example</h1>
+<p sec:authorize="authenticated">只有登录后才能看见这段话</p>
+<p sec:authorize="hasRole('DOCTOR')">只有宠物医生才能看见这段话</p>
+<p sec:authorize="hasPermission('clinic', 'manager')">只有诊所管理员才能看见这段话</p>
 <p>
     Hello <span th:text="${recipient}">Peter</span>!!!
 </p>

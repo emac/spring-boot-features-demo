@@ -23,7 +23,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    @PreAuthorize("authenticated and hasPermission('hello', 'view')")
+    @PreAuthorize("authenticated and hasPermission('clinic', 'manager')")
     public String hello(HttpSession session, Model model) {
         Object sessionVar = session.getAttribute("var");
         if (sessionVar == null) {
