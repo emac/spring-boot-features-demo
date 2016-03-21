@@ -1,18 +1,21 @@
 package cn.emac.demo.petstore.services;
 
+import cn.emac.demo.petstore.common.PageBuilder;
+import cn.emac.demo.petstore.domain.Tables;
 import cn.emac.demo.petstore.domain.tables.daos.SignonDao;
 import cn.emac.demo.petstore.domain.tables.pojos.Signon;
 import cn.emac.demo.petstore.domain.tables.records.SignonRecord;
 import org.jooq.DSLContext;
+import org.jooq.SelectConditionStep;
+import org.jooq.conf.ParamType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static cn.emac.demo.petstore.domain.Tables.SIGNON;
 
 /**
  * @author Emac
@@ -20,7 +23,7 @@ import static cn.emac.demo.petstore.domain.Tables.SIGNON;
  */
 @Service
 @Transactional
-public class SignonService {
+public class SignonService extends Tables {
 
     @Autowired
     private DSLContext dsl;
@@ -28,8 +31,12 @@ public class SignonService {
     @Autowired
     private SignonDao dao;
 
-    public List<SignonRecord> findAll() {
-        return dsl.fetch(SIGNON);
+    public PageBuilder<Signon> findAllByPage(Pageable pageable) {
+        SelectConditionStep<SignonRecord> where = dsl.selectFrom(SIGNON).where();
+        String sqlBeforePage = where.getSQL(ParamType.INLINED);
+        where.limit(pageable.getPageSize()).offset(pageable.getOffset());
+        List<Signon> signons = where.fetchInto(Signon.class);
+        return new PageBuilder<>(signons, pageable, sqlBeforePage, dsl);
     }
 
     @Cacheable(value="signonCache", key="'petstore:signon:'+#username", unless="#result==null")
@@ -42,5 +49,4 @@ public class SignonService {
     public void update(Signon user) {
         dao.update(user);
     }
-
 }

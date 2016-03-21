@@ -1,9 +1,12 @@
 package cn.emac.demo.petstore.controllers;
 
 import cn.emac.demo.petstore.common.LinkedPage;
-import com.google.common.collect.Lists;
-import org.springframework.data.domain.PageImpl;
+import cn.emac.demo.petstore.common.PageBuilder;
+import cn.emac.demo.petstore.domain.tables.pojos.Signon;
+import cn.emac.demo.petstore.services.SignonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * @author Emac
@@ -21,6 +22,9 @@ import java.util.stream.IntStream;
  */
 @Controller
 public class IndexController {
+
+    @Autowired
+    private SignonService signonService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
@@ -41,12 +45,9 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public String page(Model model, Pageable pageable) {
-        List<String> content = Lists.newArrayList();
-        IntStream.range(0, 20).forEach(i -> content.add(String.valueOf(i)));
-        // Pageable起始计数为0
-        PageImpl p = new PageImpl(content, pageable, 120);
-        LinkedPage<String> page = new LinkedPage<>(p, "/page");
+    public String page(Model model, @PageableDefault(1) Pageable pageable) {
+        PageBuilder<Signon> pageBuilder = signonService.findAllByPage(pageable);
+        LinkedPage<Signon> page = new LinkedPage<>(pageBuilder.build(), "/page");
         model.addAttribute("page", page);
         return "page";
     }

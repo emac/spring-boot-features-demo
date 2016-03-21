@@ -22,10 +22,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    MyUserDetailsService detailsService;
+    private MyUserDetailsService detailsService;
 
     @Autowired
-    MyPermissionEvaluator permissionEvaluator;
+    private MyPermissionEvaluator permissionEvaluator;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

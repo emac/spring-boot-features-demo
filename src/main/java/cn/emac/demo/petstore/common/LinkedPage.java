@@ -33,7 +33,6 @@ public class LinkedPage<T> {
         this.page = page;
         this.url = url;
         items = new ArrayList<>();
-        // Page的起始计数为1
         number = page.getNumber();
 
         int start, size;
@@ -50,13 +49,13 @@ public class LinkedPage<T> {
                 start = page.getTotalPages() - MAX_PAGE_ITEM_DISPLAY + 1;
             } else {
                 // 4/6 -> 2,3,4,5,6
-                start = number - half;
+                start = number - half + 1;
             }
             size = MAX_PAGE_ITEM_DISPLAY;
         }
 
         for (int i = 0; i < size; i++) {
-            items.add(new PageItem(start + i, (start + i) == number));
+            items.add(new PageItem(start + i, (start + i) == (number + 1)));
         }
     }
 
