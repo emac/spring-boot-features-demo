@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().sessionManagement().maximumSessions(1).expiredUrl("/expired")
                 .and()
                 .and().exceptionHandling().accessDeniedPage("/accessDenied")
-                .and().anonymous().disable().csrf().disable();
+                .and().csrf().disable();
     }
 
     @Override
