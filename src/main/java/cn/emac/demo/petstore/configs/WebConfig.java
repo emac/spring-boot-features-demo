@@ -15,6 +15,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.joda.JodaTimeFormatterRegistrar;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -35,6 +36,13 @@ public class WebConfig extends WebMvcConfigurerAdapter implements EmbeddedServle
     public void addFormatters(FormatterRegistry registry) {
         // 配套注解@DateTimeFormat
         new JodaTimeFormatterRegistrar().registerFormatters(registry);
+    }
+
+    @Override
+    public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
+        super.configureAsyncSupport(configurer);
+        configurer.setDefaultTimeout(5 * 60 * 1000L); //5分钟
+        configurer.setTaskExecutor(TaskExecutorFactory.build(15, 30, 30));
     }
 
     @Bean
