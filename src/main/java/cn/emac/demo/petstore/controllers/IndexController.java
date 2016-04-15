@@ -2,6 +2,7 @@ package cn.emac.demo.petstore.controllers;
 
 import cn.emac.demo.petstore.common.LinkedPage;
 import cn.emac.demo.petstore.common.PageBuilder;
+import cn.emac.demo.petstore.components.AsyncExecutor;
 import cn.emac.demo.petstore.domain.tables.pojos.Signon;
 import cn.emac.demo.petstore.services.SignonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class IndexController {
 
     @Autowired
     private SignonService signonService;
+
+    @Autowired
+    private AsyncExecutor asyncExecutor;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
@@ -80,6 +84,31 @@ public class IndexController {
     @ResponseBody
     public ListenableFuture<String> async2() {
         return _async(2000);
+    }
+
+    @RequestMapping(value = "/async3", method = RequestMethod.GET)
+    @ResponseBody
+    @Async
+    public ListenableFuture<String> async3() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            // ignore
+        }
+        return AsyncResult.forValue("sync3");
+    }
+
+    @RequestMapping(value = "/async4", method = RequestMethod.GET)
+    @ResponseBody
+    public ListenableFuture<String> async4() {
+        return asyncExecutor.invoke(()->{
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                // ignore
+            }
+            return "async";
+        });
     }
 
     @Async

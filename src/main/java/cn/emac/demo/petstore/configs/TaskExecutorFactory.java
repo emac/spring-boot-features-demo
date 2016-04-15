@@ -1,6 +1,5 @@
 package cn.emac.demo.petstore.configs;
 
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
@@ -10,14 +9,14 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 public class TaskExecutorFactory {
 
     /**
-     * 创建{@code AsyncTaskExecutor}的工厂方法.
+     * 创建{@code ThreadPoolTaskExecutor}的工厂方法.
      *
      * @param corePoolSize
      * @param queueCapacity
      * @param maxPoolSize
      * @return
      */
-    public static AsyncTaskExecutor build(int corePoolSize, int queueCapacity, int maxPoolSize) {
+    public static ThreadPoolTaskExecutor build(int corePoolSize, int queueCapacity, int maxPoolSize) {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(corePoolSize);
         executor.setQueueCapacity(queueCapacity);
