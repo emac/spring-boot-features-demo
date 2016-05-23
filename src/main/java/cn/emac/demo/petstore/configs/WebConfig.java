@@ -16,7 +16,6 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.joda.JodaTimeFormatterRegistrar;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -24,7 +23,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @since 2016-03-20
  */
 @Configuration
-@EnableWebMvc
 @EnableSpringDataWebSupport
 @ServletComponentScan("cn.emac")
 public class WebConfig extends WebMvcConfigurerAdapter implements EmbeddedServletContainerCustomizer {

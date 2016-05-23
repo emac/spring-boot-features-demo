@@ -4,6 +4,7 @@ import cn.emac.demo.petstore.common.LinkedPage;
 import cn.emac.demo.petstore.common.PageBuilder;
 import cn.emac.demo.petstore.components.AsyncExecutor;
 import cn.emac.demo.petstore.domain.tables.pojos.Signon;
+import cn.emac.demo.petstore.services.RetryService;
 import cn.emac.demo.petstore.services.SignonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,9 @@ public class IndexController {
 
     @Autowired
     private AsyncExecutor asyncExecutor;
+
+    @Autowired
+    private RetryService retryService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
@@ -101,7 +105,7 @@ public class IndexController {
     @RequestMapping(value = "/async4", method = RequestMethod.GET)
     @ResponseBody
     public ListenableFuture<String> async4() {
-        return asyncExecutor.invoke(()->{
+        return asyncExecutor.invoke(() -> {
             try {
                 Thread.sleep(4000);
             } catch (InterruptedException e) {
@@ -119,5 +123,11 @@ public class IndexController {
             // ignore
         }
         return AsyncResult.forValue("async");
+    }
+
+    @RequestMapping(value = "/retry", method = RequestMethod.GET)
+    @ResponseBody
+    public String retry() {
+        return retryService.retry();
     }
 }
