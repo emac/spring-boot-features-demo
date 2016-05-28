@@ -2,6 +2,8 @@ package cn.emac.demo.petstore.vos;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author Emac
  * @since 2016-05-16
@@ -9,5 +11,6 @@ import lombok.Data;
 @Data
 public class SignonVO {
 
+    @NotNull
     private String username;
 }

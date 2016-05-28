@@ -14,7 +14,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -23,6 +25,7 @@ import java.util.List;
  */
 @Service
 @Transactional
+@Validated
 public class SignonService extends Tables {
 
     @Autowired
@@ -46,7 +49,7 @@ public class SignonService extends Tables {
     }
 
     @CacheEvict(value="signonCache", key="'petstore:signon:'+#user.username")
-    public void update(Signon user) {
+    public void update(@Valid Signon user) {
         dao.update(user);
     }
 }

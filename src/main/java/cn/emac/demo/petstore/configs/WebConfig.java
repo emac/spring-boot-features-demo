@@ -15,6 +15,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.joda.JodaTimeFormatterRegistrar;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -56,5 +57,11 @@ public class WebConfig extends WebMvcConfigurerAdapter implements EmbeddedServle
         // highest priority: fine-grained error control for each HTTP status
         factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, path));
         factory.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, path));
+    }
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        // 启用方法层面(参数,返回值)的校验,跟@Validated注解配合使用
+        return new MethodValidationPostProcessor();
     }
 }
