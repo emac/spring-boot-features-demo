@@ -6,6 +6,7 @@ import cn.emac.demo.petstore.components.AsyncExecutor;
 import cn.emac.demo.petstore.domain.tables.pojos.Signon;
 import cn.emac.demo.petstore.services.RetryService;
 import cn.emac.demo.petstore.services.SignonService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpSession;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 /**
@@ -129,5 +131,18 @@ public class IndexController {
     @ResponseBody
     public String retry() {
         return retryService.retry();
+    }
+
+    @RequestMapping(value = "/format", method = RequestMethod.GET)
+    @ResponseBody
+    public Day day(Day day){
+        day.setName(day.getName()+"2 ");
+        return day;
+    }
+
+    @Data
+    private static class Day {
+        private String name;
+        private OffsetDateTime time;
     }
 }

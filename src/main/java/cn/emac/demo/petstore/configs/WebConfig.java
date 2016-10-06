@@ -1,6 +1,8 @@
 package cn.emac.demo.petstore.configs;
 
 import cn.emac.demo.petstore.controllers.MyErrorController;
+import cn.emac.demo.petstore.format.OffsetDateTimeConverter;
+import cn.emac.demo.petstore.format.StringTrimmerConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.DefaultErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
@@ -13,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.format.datetime.joda.JodaTimeFormatterRegistrar;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
@@ -33,8 +34,8 @@ public class WebConfig extends WebMvcConfigurerAdapter implements EmbeddedServle
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        // 配套注解@DateTimeFormat
-        new JodaTimeFormatterRegistrar().registerFormatters(registry);
+        registry.addConverter(new StringTrimmerConverter(false));
+        registry.addConverter(new OffsetDateTimeConverter());
     }
 
     @Override
