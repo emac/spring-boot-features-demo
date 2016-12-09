@@ -42,7 +42,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements EmbeddedServle
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
         configurer.setDefaultTimeout(5 * 60 * 1000L); //5分钟
         // used by controller
-        configurer.setTaskExecutor(TaskExecutorFactory.build(15, 30, 30));
+        configurer.setTaskExecutor(TaskExecutorFactory.build("default-DeferredResult", 15, 30, 30));
     }
 
     @Bean

@@ -2,7 +2,6 @@ package cn.emac.demo.petstore.format;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.util.Assert;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -19,7 +18,9 @@ public class OffsetDateTimeConverter implements Converter<String, OffsetDateTime
 
     @Override
     public OffsetDateTime convert(String source) {
-        Assert.isTrue(NumberUtils.isNumber(source));
+        if (!NumberUtils.isNumber(source)) {
+            return null;
+        }
 
         Long milli = NumberUtils.createLong(source);
         return OffsetDateTime.ofInstant(Instant.ofEpochMilli(milli), systemDefault());
