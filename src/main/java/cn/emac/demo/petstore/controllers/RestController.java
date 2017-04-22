@@ -27,18 +27,27 @@ public class RestController implements IController {
 
     private static final List<DayOfWeek> WEEKENDS = Lists.newArrayList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
 
+    /**
+     * 转换GET请求参数
+     */
     @RequestMapping(value = "/isWeekend", method = RequestMethod.GET)
     public JsonResult<Boolean> isWeekend(@Valid VacationRequest request) {
         return JsonResult.ok(WEEKENDS.contains(request.getStart().getDayOfWeek()));
     }
 
+    /**
+     * 转换POST请求体
+     */
     @RequestMapping(value = "/approve", method = RequestMethod.POST)
     public VacationApproval vacate(@RequestBody @Valid VacationRequest request) {
         return VacationApproval.approve(request);
     }
 
+    /**
+     * 转换POST请求参数
+     */
     @RequestMapping(value = "/deny", method = RequestMethod.POST)
-    public VacationRequest deny(@Valid VacationRequest request) {
+    public VacationApproval deny(@Valid VacationRequest request) {
         return VacationApproval.deny(request);
     }
 }
