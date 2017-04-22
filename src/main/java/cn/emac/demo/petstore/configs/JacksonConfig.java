@@ -3,8 +3,6 @@ package cn.emac.demo.petstore.configs;
 import cn.emac.demo.petstore.common.jackson.CustomEnumModule;
 import cn.emac.demo.petstore.common.jackson.Java8Mapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,21 +16,6 @@ import static cn.emac.demo.petstore.PetstoreConstants.ENUM_PROP_NAME;
  */
 @Configuration
 public class JacksonConfig {
-
-    @Bean
-    public Jdk8Module jdk8Module() {
-        return new Jdk8Module();
-    }
-
-    @Bean
-    public JavaTimeModule javaTimeModule() {
-        return new JavaTimeModule();
-    }
-
-    @Bean
-    public CustomEnumModule customEnumModule(){
-        return new CustomEnumModule(ENUM_PROP_NAME);
-    }
 
     @Bean
     public ObjectMapper objectMapper() {
