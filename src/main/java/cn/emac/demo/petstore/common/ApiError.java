@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ApiError {
+public enum ApiError implements Error {
 
     // 系统错误
     SERVER_EXCEPTION(0, "服务异常");
