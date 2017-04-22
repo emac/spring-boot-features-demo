@@ -6,9 +6,6 @@ import cn.emac.demo.petstore.components.AsyncExecutor;
 import cn.emac.demo.petstore.domain.tables.pojos.Signon;
 import cn.emac.demo.petstore.services.RetryService;
 import cn.emac.demo.petstore.services.SignonService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -26,11 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.time.DayOfWeek;
-import java.time.OffsetDateTime;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -50,11 +42,15 @@ public class IndexController implements IController {
     @Autowired
     private RetryService retryService;
 
+    /*======================================= Thymeleaf =======================================*/
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
         model.addAttribute("recipient", "World");
         return "index";
     }
+
+    /*======================================= Security =======================================*/
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     @PreAuthorize("authenticated and hasPermission('clinic', 'manager')")
@@ -68,6 +64,8 @@ public class IndexController implements IController {
         return "hello";
     }
 
+    /*======================================= Pagination =======================================*/
+
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public String page(Model model, @PageableDefault(1) Pageable pageable) {
         PageBuilder<Signon> pageBuilder = signonService.findAllByPage(pageable);
@@ -75,6 +73,8 @@ public class IndexController implements IController {
         model.addAttribute("page", page);
         return "page";
     }
+
+    /*======================================= Async =======================================*/
 
     @RequestMapping(value = "/async", method = RequestMethod.GET)
     @ResponseBody
@@ -126,57 +126,11 @@ public class IndexController implements IController {
         });
     }
 
+    /*======================================= Retry =======================================*/
+
     @RequestMapping(value = "/retry", method = RequestMethod.GET)
     @ResponseBody
     public String retry() {
         return retryService.retry();
-    }
-
-    @RequestMapping(value = "/nextDay", method = RequestMethod.GET)
-    @ResponseBody
-    public Day nextDay(@Valid Day day) {
-        return day.next();
-    }
-
-    @Getter
-    @AllArgsConstructor
-    private enum WeekDay {
-        SUNDAY(0), MONDAY(1), TUESDAY(2), WEDNESDAY(3), THURSDAY(4), FRIDAY(5), SATURDAY(6);
-        private Integer value;
-
-        public static WeekDay from(DayOfWeek dayOfWeek) {
-            if (DayOfWeek.SUNDAY.equals(dayOfWeek)) {
-                return SUNDAY;
-            }
-            return of(dayOfWeek.getValue());
-        }
-
-        public static WeekDay of(Integer value) {
-            return Arrays.stream(WeekDay.values())
-                    .filter(d -> d.getValue().equals(value)).findFirst().orElse(null);
-        }
-
-        public WeekDay next() {
-            Integer next = (value + 1) % 7;
-            return of(next);
-        }
-    }
-
-    @Data
-    private static class Day {
-        @NotNull
-        private WeekDay day;
-        private OffsetDateTime time;
-
-        public void setTime(OffsetDateTime time) {
-            this.time = time;
-            this.day = WeekDay.from(time.getDayOfWeek());
-        }
-
-        public Day next() {
-            Day nextDay = new Day();
-            nextDay.setTime(time.plusDays(1));
-            return nextDay;
-        }
     }
 }
