@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 @WebFilter("/")
 @Slf4j
-public class MyFilter extends GenericFilterBean {
+public class RequestLogFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

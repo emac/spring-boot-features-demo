@@ -1,12 +1,14 @@
 package cn.emac.demo.petstore.controllers;
 
-import cn.emac.demo.petstore.common.LinkedPage;
-import cn.emac.demo.petstore.common.PageBuilder;
+import cn.emac.demo.petstore.common.pagination.LinkedPage;
+import cn.emac.demo.petstore.common.pagination.PageBuilder;
 import cn.emac.demo.petstore.components.AsyncExecutor;
 import cn.emac.demo.petstore.domain.tables.pojos.Signon;
 import cn.emac.demo.petstore.services.RetryService;
 import cn.emac.demo.petstore.services.SignonService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -17,13 +19,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.time.DayOfWeek;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -31,13 +38,14 @@ import java.util.Date;
  * @since 2016-02-10
  */
 @Controller
-public class IndexController {
-
-    @Autowired
-    private SignonService signonService;
+@Validated
+public class IndexController implements IController {
 
     @Autowired
     private AsyncExecutor asyncExecutor;
+
+    @Autowired
+    private SignonService signonService;
 
     @Autowired
     private RetryService retryService;
@@ -72,7 +80,7 @@ public class IndexController {
     @ResponseBody
     public DeferredResult<String> async() {
         DeferredResult<String> deferredResult = new DeferredResult<>();
-        _async(1000).addCallback(new ListenableFutureCallback<String>() {
+        asyncExecutor.delay(1000, "async").addCallback(new ListenableFutureCallback<String>() {
             @Override
             public void onFailure(Throwable ex) {
                 deferredResult.setErrorResult(ex);
@@ -89,7 +97,8 @@ public class IndexController {
     @RequestMapping(value = "/async2", method = RequestMethod.GET)
     @ResponseBody
     public ListenableFuture<String> async2() {
-        return _async(2000);
+        ListenableFuture<String> result = asyncExecutor.delay(1000, "async2");
+        return result;
     }
 
     @RequestMapping(value = "/async3", method = RequestMethod.GET)
@@ -97,11 +106,11 @@ public class IndexController {
     @Async
     public ListenableFuture<String> async3() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             // ignore
         }
-        return AsyncResult.forValue("sync3");
+        return AsyncResult.forValue("async3");
     }
 
     @RequestMapping(value = "/async4", method = RequestMethod.GET)
@@ -109,22 +118,12 @@ public class IndexController {
     public ListenableFuture<String> async4() {
         return asyncExecutor.invoke(() -> {
             try {
-                Thread.sleep(4000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 // ignore
             }
-            return "async";
+            return "async4";
         });
-    }
-
-    @Async
-    public ListenableFuture<String> _async(long delay) {
-        try {
-            Thread.sleep(delay);
-        } catch (InterruptedException e) {
-            // ignore
-        }
-        return AsyncResult.forValue("async");
     }
 
     @RequestMapping(value = "/retry", method = RequestMethod.GET)
@@ -133,16 +132,51 @@ public class IndexController {
         return retryService.retry();
     }
 
-    @RequestMapping(value = "/format", method = RequestMethod.GET)
+    @RequestMapping(value = "/nextDay", method = RequestMethod.GET)
     @ResponseBody
-    public Day day(Day day){
-        day.setName(day.getName()+"2 ");
-        return day;
+    public Day nextDay(@Valid Day day) {
+        return day.next();
+    }
+
+    @Getter
+    @AllArgsConstructor
+    private enum WeekDay {
+        SUNDAY(0), MONDAY(1), TUESDAY(2), WEDNESDAY(3), THURSDAY(4), FRIDAY(5), SATURDAY(6);
+        private Integer value;
+
+        public static WeekDay from(DayOfWeek dayOfWeek) {
+            if (DayOfWeek.SUNDAY.equals(dayOfWeek)) {
+                return SUNDAY;
+            }
+            return of(dayOfWeek.getValue());
+        }
+
+        public static WeekDay of(Integer value) {
+            return Arrays.stream(WeekDay.values())
+                    .filter(d -> d.getValue().equals(value)).findFirst().orElse(null);
+        }
+
+        public WeekDay next() {
+            Integer next = (value + 1) % 7;
+            return of(next);
+        }
     }
 
     @Data
     private static class Day {
-        private String name;
+        @NotNull
+        private WeekDay day;
         private OffsetDateTime time;
+
+        public void setTime(OffsetDateTime time) {
+            this.time = time;
+            this.day = WeekDay.from(time.getDayOfWeek());
+        }
+
+        public Day next() {
+            Day nextDay = new Day();
+            nextDay.setTime(time.plusDays(1));
+            return nextDay;
+        }
     }
 }

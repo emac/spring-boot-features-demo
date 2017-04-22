@@ -1,10 +1,13 @@
-package cn.emac.demo.petstore.format;
+package cn.emac.demo.petstore.common.format.converters;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.StringUtils;
 
 /**
- * Optionally allows transforming an empty string into a {@code null} value.
+ * 去除首尾空白字符的字符串数据类型转换器
+ *
+ * @author Emac
+ * @since 2016-04-28
  */
 public class StringTrimmerConverter implements Converter<String, String> {
 

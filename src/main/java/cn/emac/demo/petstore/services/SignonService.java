@@ -1,6 +1,6 @@
 package cn.emac.demo.petstore.services;
 
-import cn.emac.demo.petstore.common.PageBuilder;
+import cn.emac.demo.petstore.common.pagination.PageBuilder;
 import cn.emac.demo.petstore.domain.Tables;
 import cn.emac.demo.petstore.domain.tables.daos.SignonDao;
 import cn.emac.demo.petstore.domain.tables.pojos.Signon;
@@ -44,7 +44,6 @@ public class SignonService extends Tables {
 
     @Cacheable(value="signonCache", key="'petstore:signon:'+#username", unless="#result==null")
     public Signon findByName(String username) {
-//        return dsl.selectFrom(SIGNON).where(SIGNON.USERNAME.eq(username)).fetchOne().into(Signon.class);
         return dao.fetchOneByUsername(username);
     }
 

@@ -1,4 +1,4 @@
-package cn.emac.demo.petstore.vos;
+package cn.emac.demo.petstore.domain;
 
 import lombok.Data;
 

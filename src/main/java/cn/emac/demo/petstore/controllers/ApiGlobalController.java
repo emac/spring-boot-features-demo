@@ -19,7 +19,10 @@ import static java.lang.String.format;
 import static org.springframework.http.HttpHeaders.CACHE_CONTROL;
 
 /**
- * NOTE: 不同于Admin后台，对于API服务，即便产生异常，返回的响应码始终应是200
+ * 即便产生异常，返回的响应码始终应是200
+ *
+ * @author Emac
+ * @since 2017-04-22
  */
 @Slf4j
 @ControllerAdvice
@@ -60,7 +63,10 @@ public class ApiGlobalController extends AbstractJsonpResponseBodyAdvice {
         String errorMsg = error.getMessage();
         log.error("Exception occurred: " + errorMsg + ". [URL=" + request.getRequestURI() + "]", error);
 
-        if (error instanceof MethodArgumentNotValidException) {
+        if (error instanceof IllegalArgumentException) {
+            // 一般是Assert异常
+            return JsonResult.error(errorMsg);
+        } else if (error instanceof MethodArgumentNotValidException) {
             // 数据校验异常
             MethodArgumentNotValidException ex = (MethodArgumentNotValidException) error;
             FieldError fieldError = ex.getBindingResult().getFieldError();

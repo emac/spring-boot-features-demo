@@ -1,6 +1,7 @@
-package cn.emac.demo.petstore.services;
+package cn.emac.demo.petstore.services.security;
 
 import cn.emac.demo.petstore.domain.tables.pojos.Signon;
+import cn.emac.demo.petstore.services.SignonService;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,6 @@ public class MyUserDetailsService implements UserDetailsService {
         }
 
         return new org.springframework.security.core.userdetails.User(
-//                username, "$2a$10$sdy7l9EvtCQ9EEjnRzrxVuogzxEw3tSxuxmANXLOyWeI09UPQU8Na", // 111111
                 username, record.getPassword(),
                 true,//是否可用
                 true,//是否过期

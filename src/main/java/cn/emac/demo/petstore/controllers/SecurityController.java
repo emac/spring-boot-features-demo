@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @since 2016-02-11
  */
 @Controller
-public class SecurityController {
+public class SecurityController implements IController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {

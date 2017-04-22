@@ -3,6 +3,10 @@ package cn.emac.demo.petstore.common;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @author Emac
+ * @since 2017-04-22
+ */
 @Getter
 @AllArgsConstructor
 public enum ApiError implements Error {

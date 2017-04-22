@@ -23,6 +23,8 @@ public class CacheConfig {
     @Bean
     public RedisCacheManager cacheManager() {
         RedisCacheManager redisCacheManager = new RedisCacheManager(redisTemplate());
+        // 默认缓存1天
+        redisCacheManager.setDefaultExpiration(86400);
         return redisCacheManager;
     }
 
@@ -31,7 +33,7 @@ public class CacheConfig {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<Object, Object>();
         redisTemplate.setConnectionFactory(jedisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         return redisTemplate;
     }
-
 }

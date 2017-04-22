@@ -1,5 +1,6 @@
 package cn.emac.demo.petstore.configs;
 
+import cn.emac.demo.petstore.common.concurrent.SpringExecutorFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,6 @@ public class AsyncConfig extends AsyncConfigurerSupport {
 
     @Bean
     public ThreadPoolTaskExecutor threadPoolTaskExecutor(){
-        return TaskExecutorFactory.build("default-@Async", 15, 30, 30);
+        return SpringExecutorFactory.build("default-Async", 15, 30, 30);
     }
 }

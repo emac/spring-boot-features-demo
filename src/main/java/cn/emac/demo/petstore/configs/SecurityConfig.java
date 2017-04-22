@@ -1,7 +1,7 @@
 package cn.emac.demo.petstore.configs;
 
-import cn.emac.demo.petstore.services.MyPermissionEvaluator;
-import cn.emac.demo.petstore.services.MyUserDetailsService;
+import cn.emac.demo.petstore.services.security.MyPermissionEvaluator;
+import cn.emac.demo.petstore.services.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.AbstractSecurityExpressionHandler;

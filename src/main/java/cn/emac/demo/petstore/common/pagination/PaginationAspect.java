@@ -1,4 +1,4 @@
-package cn.emac.demo.petstore.common;
+package cn.emac.demo.petstore.common.pagination;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;

@@ -1,4 +1,4 @@
-package cn.emac.demo.petstore.configs;
+package cn.emac.demo.petstore.common.concurrent;
 
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -8,12 +8,12 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * @author Emac
  * @since 2016-12-09
  */
-public class TaskExecutorFactory {
+public class SpringExecutorFactory {
 
     public static final Integer DEFAULT_CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
 
     /**
-     * 创建适用于实时系统（CPU密集）的线程池。
+     * 创建适用于处理实时任务（CPU密集）的线程池：
      * <ul>
      * <li>corePoolSize: #CPU + 1</li>
      * <li>queueCapacity: #CPU * 2</li>
@@ -28,7 +28,7 @@ public class TaskExecutorFactory {
     }
 
     /**
-     * 创建适用于批处理系统（I/O密集）的线程池。
+     * 创建适用于处理批处理任务（I/O密集）的线程池：
      * <ul>
      * <li>corePoolSize: #CPU * 2</li>
      * <li>queueCapacity: Integer.MAX_VALUE</li>
@@ -43,7 +43,7 @@ public class TaskExecutorFactory {
     }
 
     /**
-     * 创建通用线程池。
+     * 创建通用线程池
      *
      * @param threadNamePrefix
      * @param corePoolSize

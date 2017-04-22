@@ -11,7 +11,7 @@
 <p sec:authorize="hasRole('DOCTOR')">只有宠物医生才能看见这段话</p>
 <p sec:authorize="hasPermission('clinic', 'manager')">只有诊所管理员才能看见这段话</p>
 <p>
-    Hello <span th:text="${recipient}">Peter</span>!!!
+    Hello <span th:text="${recipient}">Peter</span>!
 </p>
 </body>
 </html>

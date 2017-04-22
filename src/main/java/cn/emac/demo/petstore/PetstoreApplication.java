@@ -2,14 +2,15 @@ package cn.emac.demo.petstore;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.retry.annotation.EnableRetry;
 
+/**
+ * @author Emac
+ * @since 2016-02-11
+ */
 @SpringBootApplication
 @ComponentScan("cn.emac")
-@EnableRetry
-public class PetstoreApplication extends WebMvcAutoConfigurationAdapter {
+public class PetstoreApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PetstoreApplication.class, args);

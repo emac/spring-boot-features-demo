@@ -15,6 +15,16 @@ import java.util.concurrent.Callable;
 @Async
 public class AsyncExecutor {
 
+    @Async
+    public ListenableFuture<String> delay(long delay, String result) {
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            // ignore
+        }
+        return AsyncResult.forValue(result);
+    }
+
     /**
      * Invokes the given callable asynchronously.
      *

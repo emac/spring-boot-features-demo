@@ -1,4 +1,4 @@
-package cn.emac.demo.petstore.qos;
+package cn.emac.demo.petstore.domain;
 
 import lombok.Builder;
 import lombok.Data;

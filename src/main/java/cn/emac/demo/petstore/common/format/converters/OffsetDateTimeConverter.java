@@ -1,4 +1,4 @@
-package cn.emac.demo.petstore.format;
+package cn.emac.demo.petstore.common.format.converters;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.core.convert.converter.Converter;
@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
 import static java.time.ZoneId.systemDefault;
 
 /**
- * 基于毫秒值的{@code OffsetDateTime}数据类型转换器。
+ * 基于毫秒值的{@code OffsetDateTime}数据类型转换器
  *
  * @author Emac
  * @since 2016-10-06

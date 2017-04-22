@@ -1,4 +1,4 @@
-package cn.emac.demo.petstore.common;
+package cn.emac.demo.petstore.common.pagination;
 
 import lombok.Getter;
 import lombok.NonNull;
