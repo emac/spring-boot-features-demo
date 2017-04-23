@@ -9,13 +9,16 @@
 以下是目前本工程展示的所有Spring Boot特性列表：
 
 - Spring框架
-  - Thymeleaf集成（含分页）
+  - Thymeleaf集成
+  - 基于AOP的分页组件
   - Spring Security集成
   - @Async支持
   - @Retry支持
   - Jackson定制
   - 数据绑定（包含类型转换，格式化，校验）
 - 外部框架
+  - Hystrix集成
+  - Retrofit集成
   - Redis集成
   - jOOQ集成
   - Druid集成

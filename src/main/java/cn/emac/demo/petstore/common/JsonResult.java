@@ -1,6 +1,6 @@
 package cn.emac.demo.petstore.common;
 
-import cn.emac.demo.petstore.common.exceptions.ApiCallException;
+import cn.emac.demo.petstore.common.exceptions.ClientCallException;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -46,7 +46,7 @@ public class JsonResult<T> {
         if (result.isSuccess() && result.getData().isPresent()) {
             return result.getData().get();
         }
-        throw new ApiCallException(result);
+        throw new ClientCallException(result);
     }
 
     /**
@@ -60,7 +60,7 @@ public class JsonResult<T> {
         if (result.isSuccess()) {
             return result.getData();
         }
-        throw new ApiCallException(result);
+        throw new ClientCallException(result);
     }
 
     /**

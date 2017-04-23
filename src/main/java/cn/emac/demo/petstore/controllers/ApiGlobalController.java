@@ -1,7 +1,7 @@
 package cn.emac.demo.petstore.controllers;
 
 import cn.emac.demo.petstore.common.JsonResult;
-import cn.emac.demo.petstore.common.exceptions.ApiCallException;
+import cn.emac.demo.petstore.common.exceptions.ClientCallException;
 import cn.emac.demo.petstore.common.exceptions.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -54,7 +54,7 @@ public class ApiGlobalController extends AbstractJsonpResponseBodyAdvice {
             if (error instanceof ServiceException && !(error.getCause() instanceof ServiceException)) {
                 break;
             }
-            if (error instanceof ApiCallException && !(error.getCause() instanceof ApiCallException)) {
+            if (error instanceof ClientCallException && !(error.getCause() instanceof ClientCallException)) {
                 break;
             }
             error = error.getCause();

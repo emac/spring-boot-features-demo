@@ -7,13 +7,13 @@ import org.apache.commons.lang3.StringUtils;
 import javax.validation.constraints.NotNull;
 
 /**
- * API调用异常类,描述调用API相关的异常
+ * Client调用异常类
  *
  * @author Emac
  * @since 2016-10-13
  */
 @Getter
-public class ApiCallException extends CommonException {
+public class ClientCallException extends CommonException {
 
     /**
      * API调用结果
@@ -23,7 +23,7 @@ public class ApiCallException extends CommonException {
     /**
      * @param result
      */
-    public ApiCallException(@NotNull JsonResult result) {
+    public ClientCallException(@NotNull JsonResult result) {
         super(StringUtils.join(result.getErrCode().orElse(0), result.getErrMessage().orElse("服务异常")));
 
         this.result = result;
