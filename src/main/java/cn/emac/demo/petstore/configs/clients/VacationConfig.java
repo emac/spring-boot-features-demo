@@ -21,7 +21,7 @@ public class VacationConfig {
     private VacationProperties vacationProperties;
 
     @Bean
-    public VacationClient vacationClient(){
+    public VacationClient vacationClient() {
         VacationClientConfig clientConfig = new VacationClientConfig(vacationProperties.getHost());
         return new VacationClient(clientConfig);
     }

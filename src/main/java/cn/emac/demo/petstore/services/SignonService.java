@@ -34,6 +34,10 @@ public class SignonService extends Tables {
     @Autowired
     private SignonDao dao;
 
+    public List<Signon> findAll() {
+        return dao.findAll();
+    }
+
     public PageBuilder<Signon> findAllByPage(Pageable pageable) {
         SelectConditionStep<SignonRecord> where = dsl.selectFrom(SIGNON).where();
         String sqlBeforePage = where.getSQL(ParamType.INLINED);
@@ -42,12 +46,12 @@ public class SignonService extends Tables {
         return new PageBuilder<>(signons, pageable, sqlBeforePage, dsl);
     }
 
-    @Cacheable(value="signonCache", key="'petstore:signon:'+#username", unless="#result==null")
+    @Cacheable(value = "signonCache", key = "'petstore:signon:'+#username", unless = "#result==null")
     public Signon findByName(String username) {
         return dao.fetchOneByUsername(username);
     }
 
-    @CacheEvict(value="signonCache", key="'petstore:signon:'+#user.username")
+    @CacheEvict(value = "signonCache", key = "'petstore:signon:'+#user.username")
     public void update(@Valid Signon user) {
         dao.update(user);
     }

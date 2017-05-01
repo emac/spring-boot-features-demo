@@ -27,9 +27,9 @@ public class VacationRequest {
     private OffsetDateTime end;
 
     public Map<String, String> toMap() {
-        Map map = Maps.newHashMap();
+        Map<String, String> map = Maps.newHashMap();
         if (type != null) {
-            map.put("type", type.getValue());
+            map.put("type", type.getValue().toString());
         }
 
         if (StringUtils.isNotEmpty(reason)) {
@@ -37,11 +37,11 @@ public class VacationRequest {
         }
 
         if (start != null) {
-            map.put("start", start.toEpochSecond());
+            map.put("start", Long.toString(start.toInstant().toEpochMilli()));
         }
 
         if (end != null) {
-            map.put("end", end.toEpochSecond());
+            map.put("end", Long.toString(end.toInstant().toEpochMilli()));
         }
 
         return map;
