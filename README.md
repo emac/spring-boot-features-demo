@@ -17,6 +17,7 @@
   - Jackson定制
   - 数据绑定（包含类型转换，格式化，校验）
   - Mock测试（Mockito, WireMock）
+  - 性能测试（JMH）
 - 外部框架
   - Hystrix集成
   - Retrofit集成
@@ -35,6 +36,7 @@
 - [【Spring】如何在单个Boot应用中配置多数据库？](http://emacoo.cn/backend/spring-boot-multi-db/)
 
 - [面向开发的测试技术（一）：Mock](http://emacoo.cn/arch/test-mock/)
+- [面向开发的测试技术（二）：性能测试](http://emacoo.cn/arch/test-performance/)
 
 ## 本地运行
 

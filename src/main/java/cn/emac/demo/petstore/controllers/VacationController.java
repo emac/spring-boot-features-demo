@@ -37,6 +37,21 @@ public class VacationController implements IController {
      */
     @RequestMapping(value = "/api/vacation/isWeekend", method = RequestMethod.GET)
     public JsonResult<Boolean> isWeekend(@Valid VacationRequest request) {
+        // 模拟不同的响应时间
+        try {
+            long base = 0;
+            Double rand = Math.random();
+            if (rand < 0.9) {
+                base = 10;
+            } else if (rand < 0.95){
+                base = 100;
+            } else {
+                base = 1000;
+            }
+            Thread.sleep( Double.valueOf(base * rand).longValue());
+        } catch (InterruptedException e) {
+            // ignore
+        }
         return JsonResult.ok(WEEKENDS.contains(request.getStart().getDayOfWeek()));
     }
 

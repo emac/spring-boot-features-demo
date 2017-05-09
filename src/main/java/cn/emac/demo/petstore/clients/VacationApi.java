@@ -14,14 +14,14 @@ import java.util.Map;
  */
 public interface VacationApi {
 
-    @GET("api/vacation/isWeekend")
+    @GET("/api/vacation/isWeekend")
     Call<JsonResult<Boolean>> isWeekend(@QueryMap Map<String, String> query);
 
-    @POST("api/vacation/approve")
+    @POST("/api/vacation/approve")
     @Headers("Content-Type: application/json;charset=UTF-8")
     Call<JsonResult<VacationApproval>> approve(@Body VacationRequest request);
 
-    @POST("api/vacation/deny")
+    @POST("/api/vacation/deny")
     @FormUrlEncoded
     Call<JsonResult<VacationApproval>> deny(@FieldMap Map<String, String> form);
 }
