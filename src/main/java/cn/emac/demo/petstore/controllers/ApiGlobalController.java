@@ -1,10 +1,10 @@
 package cn.emac.demo.petstore.controllers;
 
 import cn.emac.demo.petstore.common.JsonResult;
-import cn.emac.demo.petstore.common.exceptions.ClientCallException;
-import cn.emac.demo.petstore.common.exceptions.ServiceException;
+import cn.emac.demo.petstore.common.exceptions.CommonException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -51,17 +51,20 @@ public class ApiGlobalController extends AbstractJsonpResponseBodyAdvice {
 
         // 获取异常源
         while (error.getCause() != null) {
-            if (error instanceof ServiceException && !(error.getCause() instanceof ServiceException)) {
-                break;
-            }
-            if (error instanceof ClientCallException && !(error.getCause() instanceof ClientCallException)) {
+            if (error instanceof CommonException && !(error.getCause() instanceof CommonException)) {
                 break;
             }
             error = error.getCause();
         }
 
         String errorMsg = error.getMessage();
-        log.error("Exception occurred: " + errorMsg + ". [URL=" + request.getRequestURI() + "]", error);
+
+        String rootCauseMessage = ExceptionUtils.getRootCauseMessage(error);
+        if (!(StringUtils.containsIgnoreCase(rootCauseMessage, "Broken pipe")
+                || StringUtils.containsIgnoreCase(rootCauseMessage, "Connection reset by peer"))) {
+            // 忽略客户端断开连接导致的异常
+            log.error("Exception occurred: " + errorMsg + ". [URL=" + request.getRequestURI() + "]", error);
+        }
 
         if (error instanceof IllegalArgumentException) {
             // 一般是Assert异常
