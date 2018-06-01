@@ -6,13 +6,15 @@ package cn.emac.demo.petstore.domain.tables.daos;
 
 import cn.emac.demo.petstore.domain.tables.Account;
 import cn.emac.demo.petstore.domain.tables.records.AccountRecord;
+
+import java.util.List;
+
+import javax.annotation.Generated;
+
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import javax.annotation.Generated;
-import java.util.List;
 
 
 /**

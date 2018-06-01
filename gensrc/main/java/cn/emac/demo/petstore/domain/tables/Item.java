@@ -36,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Item extends TableImpl<ItemRecord> {
 
-    private static final long serialVersionUID = -358075;
+    private static final long serialVersionUID = -68383218;
 
     /**
      * The reference instance of <code>jpetstore.item</code>
@@ -157,7 +157,7 @@ public class Item extends TableImpl<ItemRecord> {
      */
     @Override
     public List<ForeignKey<ItemRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<ItemRecord, ?>>asList(Keys.ITEM_IBFK_1);
+        return Arrays.<ForeignKey<ItemRecord, ?>>asList(Keys.ITEM_IBFK_1, Keys.ITEM_IBFK_2);
     }
 
     /**

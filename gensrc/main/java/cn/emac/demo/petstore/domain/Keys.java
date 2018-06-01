@@ -34,6 +34,7 @@ import cn.emac.demo.petstore.domain.tables.records.SupplierRecord;
 import javax.annotation.Generated;
 
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.AbstractKeys;
 
@@ -56,6 +57,7 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
+    public static final Identity<OrdersRecord, Integer> IDENTITY_ORDERS = Identities0.IDENTITY_ORDERS;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -80,11 +82,16 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<ItemRecord, ProductRecord> ITEM_IBFK_1 = ForeignKeys0.ITEM_IBFK_1;
+    public static final ForeignKey<ItemRecord, SupplierRecord> ITEM_IBFK_2 = ForeignKeys0.ITEM_IBFK_2;
     public static final ForeignKey<ProductRecord, CategoryRecord> PRODUCT_IBFK_1 = ForeignKeys0.PRODUCT_IBFK_1;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
+
+    private static class Identities0 extends AbstractKeys {
+        public static Identity<OrdersRecord, Integer> IDENTITY_ORDERS = createIdentity(Orders.ORDERS, Orders.ORDERS.ORDERID);
+    }
 
     private static class UniqueKeys0 extends AbstractKeys {
         public static final UniqueKey<AccountRecord> KEY_ACCOUNT_PRIMARY = createUniqueKey(Account.ACCOUNT, "KEY_account_PRIMARY", Account.ACCOUNT.USERID);
@@ -104,6 +111,7 @@ public class Keys {
 
     private static class ForeignKeys0 extends AbstractKeys {
         public static final ForeignKey<ItemRecord, ProductRecord> ITEM_IBFK_1 = createForeignKey(cn.emac.demo.petstore.domain.Keys.KEY_PRODUCT_PRIMARY, Item.ITEM, "item_ibfk_1", Item.ITEM.PRODUCTID);
+        public static final ForeignKey<ItemRecord, SupplierRecord> ITEM_IBFK_2 = createForeignKey(cn.emac.demo.petstore.domain.Keys.KEY_SUPPLIER_PRIMARY, Item.ITEM, "item_ibfk_2", Item.ITEM.SUPPLIER);
         public static final ForeignKey<ProductRecord, CategoryRecord> PRODUCT_IBFK_1 = createForeignKey(cn.emac.demo.petstore.domain.Keys.KEY_CATEGORY_PRIMARY, Product.PRODUCT, "product_ibfk_1", Product.PRODUCT.CATEGORY);
     }
 }

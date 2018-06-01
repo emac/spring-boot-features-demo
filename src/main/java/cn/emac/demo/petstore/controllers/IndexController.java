@@ -1,5 +1,6 @@
 package cn.emac.demo.petstore.controllers;
 
+import cn.emac.demo.petstore.common.JsonResult;
 import cn.emac.demo.petstore.common.pagination.LinkedPage;
 import cn.emac.demo.petstore.common.pagination.PageBuilder;
 import cn.emac.demo.petstore.components.AsyncExecutor;
@@ -72,6 +73,13 @@ public class IndexController implements IController {
         LinkedPage<Signon> page = new LinkedPage<>(pageBuilder.build(), "/page");
         model.addAttribute("page", page);
         return "page";
+    }
+
+    @RequestMapping(value = "/page2", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonResult page2(@PageableDefault(1) Pageable pageable) {
+        PageBuilder<Signon> pageBuilder = signonService.findAllByPage(pageable);
+        return JsonResult.ok(pageBuilder.getContent());
     }
 
     /*======================================= Async =======================================*/

@@ -16,6 +16,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -36,7 +37,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Orders extends TableImpl<OrdersRecord> {
 
-    private static final long serialVersionUID = -1521353531;
+    private static final long serialVersionUID = 1198091240;
 
     /**
      * The reference instance of <code>jpetstore.orders</code>
@@ -204,6 +205,14 @@ public class Orders extends TableImpl<OrdersRecord> {
     @Override
     public Schema getSchema() {
         return Jpetstore.JPETSTORE;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<OrdersRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_ORDERS;
     }
 
     /**

@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS bannerdata (
   COMMENT='Banner Data';
 
 CREATE TABLE IF NOT EXISTS orders (
-  orderid int not null,
+  orderid int not null auto_increment,
   userid varchar(80) not null,
   orderdate date not null,
   shipaddr1 varchar(80) not null,
